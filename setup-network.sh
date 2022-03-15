@@ -256,7 +256,10 @@ for i in ${!options[@]}; do
     
     if [[ "$option" == --ap-ip-address=* ]]; then
         apIpAddrTemp="$(echo $option | awk -F '=' '{print $2}')"
+        echo "$apIpAddrTemp" 
         if [ ! -z "$apIpAddrTemp" ]; then
+	    echo validIpAddress "$apIpAddrTemp"
+	    echo "$apIpAddrTemp"
             if validIpAddress "$apIpAddrTemp"; then
                 apIpAddrValid=true
                 # Successful validation. Now set apIp, apDhcpRange and apSetupIptablesMasquerade:
@@ -862,8 +865,12 @@ if [ "$cleanup" = true ]; then
 fi
 
 if [ "$install" = true -o "$installUpgrade" = true ]; then
+    echo "$apSsidValid"
+    echo "$apPassphraseValid"
+    echo "$apCountryCodeValid"
+    echo "$apIpAddrValid"
     if [ "$apSsidValid" = false -o "$apPassphraseValid" = false \
-        -o "$apCountryCodeValid" = false -o "$apIpAddrValid" = false ]; then
+        -o "$apCountryCodeValid" = false ]; then
         
 echo '
 Invalid Access Point(AP) setup options are specified for installation.
